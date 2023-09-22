@@ -1,0 +1,81 @@
+-- some parts for a beginner workshop 2023-09-30 at P46
+
+-- WORKSHOP techno beat --> use as a intro
+d1 $ layer [(iter' 4), every 2 ((# pan perlin) . chop 128 . (# gain sine))]
+  $ fast 2
+  -- $ rot (irand 6)
+  -- $ note pat
+  $ note "2 5 3 [1,3]"
+  # shuffle 4 "bd clubkick bass3 [co, sn]"
+  -- # room 0.2 # sz 0.2
+  -- # crush 4
+
+
+
+-- basics simple rhythms, poly rhythms etc.
+
+d1 $ sound "bd oc*2 sn"
+
+d1 silence
+
+hush
+
+-- ich bin ein kommentar
+
+d1 $ sound "bd bd ~ sn"
+
+d1 $ note "1 2 3 4" # sound "bd*4"
+
+d1 $ note "1 2 3 4" # sound "bd*4" # gain "0.9 0.6 1.2 0.8"
+
+d1 $ note "1*4" # sound "[bd, oc] sn*2"
+
+d1 $ note "1*4" # sound "[bd oc] sn*2"
+
+d1 $ note "1*4" # sound "bd oc sn*2"
+
+d1 $ note "1*4" # sound "[oc(5,8), bd:8(7,8)]"
+
+
+
+
+--- some effects
+d2 $ note "1 2 3 4" # sound "bd*4" # speed "1"
+
+d2 $ note "1 2 3 4" # sound "bd*4" # vowel "a"
+
+d2 $ note "1 2 3 4" # sound "bd*4" # crush "5"
+
+d2 $ note "1 2 3 4" # sound "bd*4" # room 0.7 # size 0.6 
+
+d2 $ note "1 2 3 4" # sound "bd*4" # pan sine
+
+d2 $ note "1 2 3 4" # sound "bd*4" # djf 0.1
+
+-- randomness
+d2 $ note "1 2 3 4" # sound "bd*4" # djf rand
+
+d2 $ note "1 2 [3|5|7] 4" # sound "bd*4"
+
+d2 $ note "1 2 [3?] 4" # sound "bd*4"
+
+d2 $ sometimes (# gain 0.7) $ note "1 2 3 4" # sound "bd*4"
+
+d2 $ often (# gain 0.7) $ note "1 2 3 4" # sound "bd*4"
+
+-- synthesizers
+
+d3 $ sound "superpiano"
+
+d3 $ note "a4 c4 d4" # sound "superpiano"
+
+d3 $ note "a4 c4 d4" # sound "superpiano" # legato 0.8
+
+
+-- everything is a pattern (extra, bonus going wild)
+
+d4 $ note "a4..c6" # sound "superpiano"
+  -- # djf rand
+  -- # crush "2..6"
+  -- # legato "1..6"
+  -- # room "<0.5..0.9>"

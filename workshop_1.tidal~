@@ -1,0 +1,29 @@
+-- some parts for a beginner workshop
+
+-- WORKSHOP techno beat --> use as a intro
+d1 $ layer [(iter' 4), every 2 ((# pan perlin) . chop 128 . (# gain sine))]
+  $ fast 2
+  -- $ rot (irand 6)
+  -- $ note pat
+  $ note "2 5 3 [1,3]"
+  # shuffle 3 "bd clubkick bass3 [co, sn]"
+  -- # room 0.2 # sz 0.2
+  # crush 5
+
+
+-- simple rhythms, poly rhythms etc.
+
+d2 $ "[dr55:2!2, [hh?0.9 hh]] bd(5,8) bd"
+
+d3 $ fast 2
+   -- $ n "[1 2|0 . 3]"
+   $ shuffle 3 "{bd sn bd, hh*2 hc blip*2 [casio|bleep]}"
+   -- # crush "<3 6 8?0.3>"
+   -- # speed (saw + 0.5)
+   -- # pan perlin
+
+  --- some effects
+
+-- randomness
+
+-- synthesizers
