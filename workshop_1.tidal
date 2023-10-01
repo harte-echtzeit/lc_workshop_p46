@@ -1,7 +1,7 @@
 -- some parts for a beginner workshop 2023-09-30 at P46
 
 -- WORKSHOP techno beat --> use as a intro
-d1 $ layer [(iter' 4), every 2 ((# pan perlin) . striate 128 . (# gain sine))]
+d1 $ jux rev $ layer [(iter' 4), every 2 ((# pan perlin) . striate 128 . (# gain sine))]
   $ fast 2
   -- $ rot (irand 6)
   -- $ note pat
@@ -9,6 +9,7 @@ d1 $ layer [(iter' 4), every 2 ((# pan perlin) . striate 128 . (# gain sine))]
   # shuffle 4 "bd clubkick bass3 [co, sn]"
   -- # room 0.2 # sz 0.2
   -- # crush 4
+  # gain 0.5
 
 
 
@@ -24,6 +25,7 @@ d1 $ sound "hh hh hh"
 
 d1 $ sound "hh hh hh hh"
 
+d2 $ sound "bd sd"
 
 d1 silence
 
@@ -37,20 +39,20 @@ hush
 d1 $ sound "bd sd"
 
 -- Mit ~ eine Pause einfügen
-d1 $ sound "bd ~ sd"
+d1 $ sound "bd ~ sd ~"
 
 -- Mit eckigen Klammern kann man eine Untersequenz einfügen
 d1 $ sound "bd [bd cp] sd"
 
 d1 $ sound "[bd bd sd] [bd sd]"
 
-d1 $ sound "[[bd bd] bd sd] [bd sd]"
+d1 $ sound "[[bd cp bd] bd sd] [bd sd]"
 
 d1 $ sound "[[bd [bd bd bd bd]] bd sd] [bd sd]"
 
 
 -- Mit dem * kann man ein Sample wiederholen
-d1 $ sound "bd sd*2"
+d1 $ sound "bd sd*4"
 
 -- ... und ist äquivalent zu 
 d1 $ sound "bd [sd sd]"
@@ -75,12 +77,12 @@ d1 $ sound "<bd sd> <sd [cp cp]> <bd [cp cp]>"
 
 
 -- Mit | können wir zufällig aus zwei Samples auswählen
-d1 $ sound "[bd|sd]"
+d1 $ sound "[bd|sd] hh hh cp"
 
 d1 $ sound "bd? sd"
 
 -- Mit , können wir zwei Samples/Patterns gleichzeitig spielen
-d1 $ sound "[sd,cp]"
+d1 $ sound "[sd,cp] bd"
 
 -- Mit ! können wir ein Sample mehrfach wiederholen (bestimmt durch die Zahl nach dem Ausrufezeichen)
 d1 $ sound "bd!3 sd"
@@ -94,15 +96,17 @@ d1 $ sound "bd!3 sd"
 -- Übung zu Effekten
 
 -- Filter um Klänge wie Vokale klingen zu lassen
-d1 $ sound "bd sd" # vowel "a"
 
-d1 $ sound "bd sd" # vowel "a e"
+d1 $ sound "bd sd"
+  # vowel "i"
+
+d1 $ sound "bd sd" # vowel "a? [e|i]"
 
 -- Mit gain können wir die Lautstärke der Pattern steuern
-d1 $ sound "bd hh sd" # gain "1 0.7 0.5"
+d1 $ sound "bd hh sd" # gain rand
 
 -- Mit speed können wir die Geschwindigkeit mit der ein Sample abgespielt, und damit die Tonhöhe, ändern
-d1 $ sound "sd*4" # speed "1 1.5 2 0.5"
+d1 $ sound "sd*4" # speed "-5 1.5 2 0.5"
 
 -- Mit pan können wir das Stereo-Verhälten ändern (0 = links, 0.5 = Mitte, 1 = rechts)
 d1 $ sound "bd hh sd" # pan "0 0.5 1"
@@ -110,7 +114,7 @@ d1 $ sound "bd hh sd" # pan "0 0.5 1"
 d1 $ sound "bd hh sd" # pan sine
 
 -- room erzeugt einen Hall-effekt
-d1 $ sound "bd hh sd" # room 0.6 # size 0.5
+d1 $ sound "bd hh sd" # room 0.2 # size 0.9
 
 -- lpf ist ein Low-Pass-Filter, der die Lautstärke aller Frequenzanteile oberhalb eines bestimmten Schwellwerts absenkt
 d1 $ sound "bd hh sd" # lpf 400
@@ -119,7 +123,7 @@ d1 $ sound "bd hh sd" # lpf 400
 d1 $ sound "bd hh sd" # hpf 400
 
 --- bit crushing/distortion effect
-d1 $ sound "bd hh sd" # crush 4
+d1 $ sound "bd hh sd" # crush "2 4 6"
 
 hush 
 
@@ -129,13 +133,13 @@ hush
 -- Übung zu Funktionen
 
 -- n wählt ein sample aus dem Ordner des Instruments
-d1 $ n "1 2 3" # sound "bd hh sd"
+d1 $ n "0 23 6" # sound "bd hh sd"
 
 
 -- slow dehnt das Pattern über mehrere Cycles 
 d1 $ sound "arpy arpy:1 arpy:2 arpy:3"
 
-d1 $ slow 2 $ sound "arpy arpy:1 arpy:2 arpy:3"
+d1 $ slow 4 $ sound "arpy arpy:1 arpy:2 arpy:3"
 
 -- fast komprimiert das Pattern in weniger als einen Cycle
 d1 $ fast 2 $ sound "arpy arpy:1 arpy:2 arpy:3"
@@ -154,7 +158,7 @@ d1 $ jux rev $ sound "[bd [sd sd] bd sd]*2"
 -- Mit stack können wir mehrere Pattern parallel in einem Kanal abspielen und individuell manipulieren
 d1 $ stack [
     sound "bd sn [cp ht] hh" # pan "0.5 1", 
-    fast 2 $ sound "bd sn [cp ht] hh"]
+    fast 2 $ sound "bd sn [cp ht] hh" # crush 2]
 
 -- Mit sometimes (und seinen Verwandten) können wir Funktionen anwenden, die nur mit einer bestimmten Wahrscheinlichkeit ausgeführt werden:
 -- function	    likelihood
@@ -167,7 +171,7 @@ d1 $ stack [
 -- almostNever	10%
 -- never	    0%
 
-d1 $ sometimes (# speed 2) $ sound "[bd bd] sd*3 bd cp*2"
+d1 $ sometimes (# speed "-2") $ sound "[bd bd] sd*3 bd cp*2"
 
 
 --- OPTIONEN
@@ -177,10 +181,10 @@ d1 $ sometimes (# speed 2) $ sound "[bd bd] sd*3 bd cp*2"
 -- Der zweite Parameter gibt an in welchem Abstand das jeweilige Echo zum vorhergehenden gespielt wird (z.B. im Abstand von 20% eines Cycles)
 -- Der dritte Parameter gibt an um welchen Anteil das jeweils folgende Echo leiser gespielt wird (z.B. 0.5 = 50% leiser als das vorhergehende Echo)
 
-d1 $ echo 4 0.2 0.5 $ sound "bd sd"
+d1 $ stut 6 0.1 0.6 $ sound "sd"
 
 -- Mit chop können wir Samples in die angegebene Anzahl von Teilen zerstückeln 
-d1 $ chop 3 $ sound "arpy future ~ feel*2"
+d1 $ chop "23 42 2" $ sound "arpy future ~ feel*2"
 
 -- Mit striate können wir einen ähnlichen Effekt wie mit chop erzeugen und die Samples zerstückeln. In diesem Fall wird die Schleife aber dreimal abgespielt, 
 -- beim ersten Mal das erste Drittel jedes Samples, beim zweiten Mal das zweite Drittel jedes Samples und schließlich das letzte Drittel jedes Samples.
@@ -206,7 +210,7 @@ d3 $ note "a4 c4 d4" # sound "superhoover"
 -- everything is a pattern (extra, bonus going wild)
 
 d4 $ note "a4..c6" # sound "superpiano"
-  -- # djf rand
-  -- # crush "2..6"
-  -- # legato "1..6"
-  -- # room "<0.5..0.9>"
+  # djf rand
+  # crush "2..6"
+  # legato "1..6"
+  # room "<0.5..0.9>"
